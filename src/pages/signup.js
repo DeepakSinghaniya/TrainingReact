@@ -1,10 +1,14 @@
 import { useForm } from "react-hook-form";
 import Input from "../components/input";
+import { useDispatch } from "react-redux";
+import { signup } from "../store/slices/auth";
 
 const Signup = () => {
+  const dispatch = useDispatch();
   const { register, handleSubmit, reset } = useForm();
 
   const submit = (values) => {
+    dispatch(signup(values));
     console.log(values);
     reset();
   };
