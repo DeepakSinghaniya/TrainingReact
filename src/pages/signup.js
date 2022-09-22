@@ -1,17 +1,23 @@
 import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 import Input from "../components/input";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { signup } from "../store/slices/auth";
 
 const Signup = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const signupData = useSelector((state) => state.auth?.singUp?.data);
   const { register, handleSubmit, reset } = useForm();
 
   const submit = (values) => {
     dispatch(signup(values));
-    console.log(values);
     reset();
   };
+  if (signupData?.acknowledged) {
+    alert("Signup Successful...");
+    navigate("/login");
+  }
   return (
     <div className="signup-form-warp">
       <h1>Signup</h1>
