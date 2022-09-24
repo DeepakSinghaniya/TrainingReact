@@ -1,5 +1,5 @@
 import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Input from "../components/input";
 import { useDispatch, useSelector } from "react-redux";
 import { signup } from "../store/slices/auth";
@@ -7,16 +7,19 @@ import { signup } from "../store/slices/auth";
 const Signup = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const signupData = useSelector((state) => state.auth?.singUp?.data);
+
+  // Store/Global State (Javascript Object) -> Select Data using key path -> Return Data
+  const signupData = useSelector((store) => store.auth?.singUp?.data);
   const { register, handleSubmit, reset } = useForm();
 
+  // Action (Submit) -> Dispatch -> Reducer (auth Slice) -> Store (Javascript Object)
   const submit = (values) => {
     dispatch(signup(values));
     reset();
   };
   if (signupData?.acknowledged) {
     alert("Signup Successful...");
-    navigate("/login");
+    navigate("/");
   }
   return (
     <div className="signup-form-warp">
@@ -52,6 +55,7 @@ const Signup = () => {
         />
         <button type="submit">Signup</button>
       </form>
+      <Link to="/">Login</Link>
     </div>
   );
 };

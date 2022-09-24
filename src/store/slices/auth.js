@@ -15,6 +15,11 @@ export const signup = createAsyncThunk("auth/signup", async (data) => {
 export const login = createAsyncThunk("auth/login", async (data) => {
   try {
     const response = await axios.post(`${apiURL}/users/login/`, data);
+    if (response.status === 200) {
+      localStorage.setItem("token", response.data.accessToken);
+      localStorage.setItem("email", response.data.email);
+      localStorage.setItem("name", response.data.name);
+    }
     return response.data;
   } catch (e) {
     throw JSON.stringify(e.response);
@@ -67,5 +72,4 @@ const authSlice = createSlice({
   },
 });
 
-export const { increment, decrement, incrementByAmount } = authSlice.actions;
 export default authSlice.reducer;
